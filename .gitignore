@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# MacOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Hugging Face
+.cache/
+huggingface/
+
+# Model checkpoints
+checkpoint-*/
+*.bin
+*.safetensors
+
+# Training outputs
+trainer_state.json
+train_results.json
+test_results.json
+validation_results.json
+
+# Streamlit
+.streamlit/
+
+# PyTorch
+*.pt
+
+# Environment variables
+.env
