@@ -1,17 +1,42 @@
+from pathlib import Path
+
 from transformers import pipeline
 
-MODEL_PATH = "../training/models/bert_ner"
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+MODELS = {
+    "bert": BASE_DIR / "models" / "bert_ner",
+    "roberta": BASE_DIR / "models" / "roberta_ner",
+    "deberta": BASE_DIR / "models" / "deberta_ner",
+}
+
+
+print("\nAvailable Models:")
+print("1. bert")
+print("2. roberta")
+print("3. deberta")
+
+selected_model = input("\nSelect model: ").strip().lower()
+
+if selected_model not in MODELS:
+    print("\nInvalid model selected.")
+    exit()
+
+model_path = str(MODELS[selected_model])
+
+print(f"\nLoading {selected_model} model...")
 
 ner_pipeline = pipeline(
     "ner",
-    model=MODEL_PATH,
-    tokenizer=MODEL_PATH,
+    model=model_path,
+    tokenizer=model_path,
     aggregation_strategy="simple"
 )
 
-text = """
-Apple is opening a new office in Bangalore and Sundar Pichai will visit India next month.
-"""
+print("\nModel loaded successfully!")
+
+text = input("\nEnter text:\n\n")
 
 results = ner_pipeline(text)
 

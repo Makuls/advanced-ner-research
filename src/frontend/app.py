@@ -67,7 +67,7 @@ st.markdown(
 )
 
 st.markdown(
-    "<div class='subtitle'>Transformer-based Named Entity Recognition with Real-Time AI Inference</div>",
+    "<div class='subtitle'>Compare BERT, RoBERTa, and DeBERTa for Named Entity Recognition</div>",
     unsafe_allow_html=True
 )
 
@@ -77,14 +77,72 @@ st.markdown(
 st.sidebar.title("📊 Model Information")
 
 st.sidebar.info("""
-Model: BERT NER  
+Available Models:
+
+• BERT  
+• RoBERTa  
+• DeBERTa  
+
 Framework: Hugging Face Transformers  
 Backend: FastAPI  
 Frontend: Streamlit  
 Task: Named Entity Recognition
 """)
 
-st.sidebar.success("✅ Model Loaded Successfully")
+st.sidebar.success("✅ Multi-Model System Ready")
+
+st.sidebar.markdown("---")
+
+st.sidebar.subheader("🤖 Model Status")
+
+st.sidebar.markdown("""
+🟢 **BERT** → Stable baseline model
+
+🟢 **RoBERTa** → Best performing model
+
+🟡 **DeBERTa** → Experimental model
+""")
+
+# -----------------------------
+# MODEL SELECTION
+# -----------------------------
+selected_model = st.selectbox(
+    "🤖 Choose Transformer Model",
+    ["bert", "roberta", "deberta"]
+)
+
+# -----------------------------
+# ABOUT PROJECT
+# -----------------------------
+st.markdown("---")
+
+st.subheader("📚 About This Project")
+
+st.write("""
+This project is a multi-model Named Entity Recognition (NER) system built using
+Transformer architectures including BERT, RoBERTa, and DeBERTa.
+
+The system performs real-time entity extraction for:
+- 👤 Persons
+- 🏢 Organizations
+- 📍 Locations
+- 🏷️ Miscellaneous entities
+
+Key Features:
+- Multi-model transformer comparison
+- Real-time NER inference
+- Interactive Streamlit dashboard
+- FastAPI backend integration
+- Entity visualization and analytics
+- Confidence score tracking
+
+Current Model Status:
+- 🟢 BERT → Stable baseline model
+- 🟢 RoBERTa → Best performing model
+- 🟡 DeBERTa → Experimental model
+
+RoBERTa currently demonstrates the strongest real-world entity recognition performance.
+""")
 
 # -----------------------------
 # INPUT
@@ -106,7 +164,8 @@ if st.button("🚀 Analyze Entities"):
     else:
 
         payload = {
-            "text": text_input
+            "text": text_input,
+            "model": selected_model
         }
 
         response = requests.post(API_URL, json=payload)
@@ -116,6 +175,8 @@ if st.button("🚀 Analyze Entities"):
             data = response.json()
 
             entities = data["entities"]
+
+            st.success(f"✅ Using {selected_model.upper()} model")
 
             # -----------------------------
             # HIGHLIGHTED TEXT
@@ -165,18 +226,38 @@ if st.button("🚀 Analyze Entities"):
 
             col1, col2, col3 = st.columns(3)
 
-            org_count = sum(1 for e in entities if e["label"] == "ORG")
-            per_count = sum(1 for e in entities if e["label"] == "PER")
-            loc_count = sum(1 for e in entities if e["label"] == "LOC")
+            org_count = sum(
+                1 for e in entities
+                if e["label"] == "ORG"
+            )
+
+            per_count = sum(
+                1 for e in entities
+                if e["label"] == "PER"
+            )
+
+            loc_count = sum(
+                1 for e in entities
+                if e["label"] == "LOC"
+            )
 
             with col1:
-                st.metric("🏢 Organizations", org_count)
+                st.metric(
+                    "🏢 Organizations",
+                    org_count
+                )
 
             with col2:
-                st.metric("👤 Persons", per_count)
+                st.metric(
+                    "👤 Persons",
+                    per_count
+                )
 
             with col3:
-                st.metric("📍 Locations", loc_count)
+                st.metric(
+                    "📍 Locations",
+                    loc_count
+                )
 
             # -----------------------------
             # ENTITY DISTRIBUTION CHART
@@ -200,7 +281,9 @@ if st.button("🚀 Analyze Entities"):
             })
 
             st.bar_chart(
-                chart_data.set_index("Entity Type")
+                chart_data.set_index(
+                    "Entity Type"
+                )
             )
 
             # -----------------------------
@@ -228,16 +311,22 @@ if st.button("🚀 Analyze Entities"):
 
                     st.markdown("---")
 
-                    col1, col2 = st.columns([3, 2])
+                    col1, col2 = st.columns(
+                        [3, 2]
+                    )
 
                     with col1:
+
                         st.markdown(
                             f"### {icon} {entity['entity']}"
                         )
 
-                        st.info(f"Label: {label}")
+                        st.info(
+                            f"Label: {label}"
+                        )
 
                     with col2:
+
                         st.success(
                             f"Confidence: {entity['score']:.4f}"
                         )

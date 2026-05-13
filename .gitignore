@@ -31,6 +31,9 @@ checkpoint-*/
 *.bin
 *.safetensors
 
+# Models
+models/
+
 # Training outputs
 trainer_state.json
 train_results.json
