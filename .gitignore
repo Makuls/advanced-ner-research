@@ -26,13 +26,11 @@ logs/
 .cache/
 huggingface/
 
-# Model checkpoints
+# Ignore large model weights
 checkpoint-*/
 *.bin
 *.safetensors
-
-# Models
-models/
+*.pt
 
 # Training outputs
 trainer_state.json
@@ -42,9 +40,6 @@ validation_results.json
 
 # Streamlit
 .streamlit/
-
-# PyTorch
-*.pt
 
 # Environment variables
 .env

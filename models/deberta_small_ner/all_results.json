@@ -1,0 +1,11 @@
+{
+    "epoch": 3.0,
+    "validation_accuracy": 0.8334476205403499,
+    "validation_f1": 0.0,
+    "validation_loss": NaN,
+    "validation_precision": 0.0,
+    "validation_recall": 0.0,
+    "validation_runtime": 20.8839,
+    "validation_samples_per_second": 155.622,
+    "validation_steps_per_second": 38.93
+}
